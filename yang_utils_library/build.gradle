@@ -126,9 +126,9 @@ dependencies {
 publish {
     userOrg = 'gyymz1993'//bintray.com用户名
     groupId = 'com.github.gyymz1993'//jcenter上的路径
-    artifactId = 'yang_utils_library'//项目名称
-    publishVersion = '1.0.0'//版本号
-    desc = 'this is for yang_utils_library'//描述，不重要
+    artifactId = 'YangBaseUtils'//项目名称
+    publishVersion = 'v.1.0.1'//版本号
+    desc = 'this is for YangBaseUtils'//描述，不重要
    // website = 'https://github.com/gyymz1993/yang_utils_library.git'//网站，最好有，不重要
 }
 
