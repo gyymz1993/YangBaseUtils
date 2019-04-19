@@ -9,7 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/yang_utils_library" />
+            <option value="$PROJECT_DIR$/view_utils_library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

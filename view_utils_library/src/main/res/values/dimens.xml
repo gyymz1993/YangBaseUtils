@@ -1,0 +1,11 @@
+<resources>
+
+    <dimen name="third_view_nav_bt_height">65dp</dimen>
+    <dimen name="third_view_default_text_size">15sp</dimen>
+    <dimen name="third_view_space_15">15dp</dimen>
+    <!-- 默认按钮的圆角大小 -->
+    <dimen name="third_view_button_round_size">5dp</dimen>
+    <dimen name="third_oval_button_round_size">20dp</dimen>
+    <!-- 默认分割线的宽度或者高度 -->
+    <dimen name="third_view_line_size">1px</dimen>
+</resources>
