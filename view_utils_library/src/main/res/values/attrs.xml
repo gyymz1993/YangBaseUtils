@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AmountView">
+        <!-- 左右2边+-按钮的宽度 -->
+        <attr name="btnWidth" format="dimension" />
+        <!-- 中间TextView的宽度 -->
+        <attr name="tvWidth" format="dimension" />
+        <!--<attr name="tvColor" format="color"/>-->
+        <attr name="tvTextSize" format="dimension"/>
+        <attr name="btnTextSize" format="dimension"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="DrawableTextView">
+        <attr name="leftDrawable" format="reference|color"/>
+        <attr name="rightDrawable" format="reference|color"/>
+        <attr name="topDrawable" format="reference|color"/>
+        <attr name="bottomDrawable" format="reference|color"/>
+
+        <attr name="leftDrawableWidth" format="reference|dimension"/>
+        <attr name="rightDrawableWidth" format="reference|dimension"/>
+        <attr name="topDrawableWidth" format="reference|dimension"/>
+        <attr name="bottomDrawableWidth" format="reference|dimension"/>
+
+        <attr name="leftDrawableHeight" format="reference|dimension"/>
+        <attr name="rightDrawableHeight" format="reference|dimension"/>
+        <attr name="topDrawableHeight" format="reference|dimension"/>
+        <attr name="bottomDrawableHeight" format="reference|dimension"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="StatusBarHeightView">
+        <attr name="use_type" format="integer">
+            <enum name="use_height" value="0" />
+            <enum name="use_padding_top" value="1" />
+        </attr>
+    </declare-styleable>
+
+
+
+    <declare-styleable name="MsgView">
+        <!-- 圆角矩形背景色 -->
+        <attr name="mv_backgroundColor" format="color"/>
+        <!-- 圆角弧度,单位dp-->
+        <attr name="mv_cornerRadius" format="dimension"/>
+        <!-- 圆角弧度,单位dp-->
+        <attr name="mv_strokeWidth" format="dimension"/>
+        <!-- 圆角边框颜色-->
+        <attr name="mv_strokeColor" format="color"/>
+        <!-- 圆角弧度是高度一半-->
+        <attr name="mv_isRadiusHalfHeight" format="boolean"/>
+        <!-- 圆角矩形宽高相等,取较宽高中大值-->
+        <attr name="mv_isWidthHeightEqual" format="boolean"/>
+    </declare-styleable>
+
+
+
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
+
+
+    <declare-styleable name="ArrowTextView">
+        <attr name="radius" format="dimension" />
+        <attr name="arrowWidth" format="dimension" />
+        <attr name="arrowHeight" format="dimension" />
+        <attr name="bg" format="color" />
+    </declare-styleable>
+
+</resources>

@@ -28,6 +28,9 @@ allprojects {
         maven { url "https://dl.bintray.com/gyymz1993/maven" }
         maven { url "https://novoda.bintray.com/snapshots" }
         maven { url "http://jcenter.bintray.com/" }
+        maven { url "https://conan.bintray.com" }
+
+       // $ conan remote add conan-transit https://conan-transit.bintray.com
 
         tasks.withType(Javadoc) {
             options{
