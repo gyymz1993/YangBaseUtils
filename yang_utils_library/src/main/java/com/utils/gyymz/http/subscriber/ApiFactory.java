@@ -30,11 +30,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Authenticator;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okhttp3.Route;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -64,7 +67,8 @@ public class ApiFactory {
     private HashMap<String, Retrofit> retrofitMap = new HashMap<>();
     private int timeout = 30;
     public static final String DB_DATA_FORMAT = "yyyy-MM-DD HH:mm:ss";
-    public String baseUrl;
+    private String baseUrl;
+    private String mToken;
 
     public static ApiFactory getFactory() {
         if (factory == null) {
@@ -95,6 +99,14 @@ public class ApiFactory {
      */
     public void add(String key, String baseUrl) {
         retrofitMap.put(key, createRetrofit(baseUrl));
+    }
+
+    /**
+     * 新增一个retrofit实例，可以通过{@link #create(Class)}或{@link #create(int, Class)}方法获取Api实现。<br/>
+     * key默认自增长。
+     */
+    public void setToken(String token) {
+        this.mToken = token;
     }
 
     /**
@@ -229,6 +241,32 @@ public class ApiFactory {
                     new JsonAdapterAnnotationTypeAdapterFactory(constructor))));
         }
 
+
+        Authenticator authenticator = new Authenticator() {//当服务器返回的状态码为401时，会自动执行里面的代码，也就实现了自动刷新token
+            @Override
+            public Request authenticate(Route route, Response response) throws IOException {
+                L_.d("==========>   重新刷新了token");//这里可以进行刷新 token 的操作
+                return response.request().newBuilder()
+                        .addHeader("Authorization", "")
+                        .build();
+            }
+        };
+        Interceptor tokenInterceptor = new Interceptor() {//全局拦截器，往请求头部添加 token 字段，实现了全局添加 token
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request originalRequest = chain.request();//获取请求
+                Request tokenRequest = null;
+                if (TextUtils.isEmpty(mToken)) {//对 token 进行判空，如果为空，则不进行修改
+                    return chain.proceed(originalRequest);
+                }
+                tokenRequest = originalRequest.newBuilder()//往请求头中添加 token 字段
+                        .header("Authorization", mToken)
+                        .build();
+                return chain.proceed(tokenRequest);
+            }
+        };
+
+
         builder.baseUrl(baseUrl)
                 // 可以直接返回没有解析过得String字符串  如果没加只能解析为对象
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -236,10 +274,15 @@ public class ApiFactory {
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create())) //转换器，请求结果转换成VO
                 //自定义解析增加加密方式` 一定要在gsonConverter前面,否则gson会拦截所有的解析方式
                 .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()));
+
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder.readTimeout(timeout, TimeUnit.SECONDS)
                 .writeTimeout(timeout, TimeUnit.SECONDS).
                 connectTimeout(timeout, TimeUnit.SECONDS);
+        /*token拦截器*/
+        clientBuilder.retryOnConnectionFailure(true)
+                .addNetworkInterceptor(tokenInterceptor)
+                .authenticator(authenticator);
         clientBuilder.addInterceptor(new HttpLoggingInterceptor());
         //添加拦截器 将请求数据加密
         clientBuilder.addInterceptor(new Interceptor() {
